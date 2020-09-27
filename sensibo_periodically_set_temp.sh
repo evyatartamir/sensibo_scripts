@@ -22,7 +22,7 @@ AC_OFF_VALUE=0
 # This function checks if the AC is currently ON
 function acIsOn
 {
-	if [ `curl -s -X GET "https://home.sensibo.com/api/v2/pods/tWMRL3mX/acStates?limit=1&apiKey={$SENSIBO_API_KEY}" | jq .result[0].acState.on` = "true" ]; then
+	if [ `curl -s -X GET "https://home.sensibo.com/api/v2/pods/$SENSIBO_AC_DEVICE_ID/acStates?limit=1&apiKey={$SENSIBO_API_KEY}" | jq .result[0].acState.on` = "true" ]; then
 		return $AC_ON_VALUE
 	else
 		return $AC_OFF_VALUE
