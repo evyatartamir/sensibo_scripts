@@ -7,7 +7,14 @@
 
 # You must set these authentication values, either here or from the environment.
 SENSIBO_API_KEY=${SENSIBO_API_KEY:-"1234567890ABCDEFGHIJlmnopqrstu"}
-SENSIBO_AC_DEVICE_ID=${SENSIBO_AC_DEVICE_ID:-"ABCDEFGH"}
+echo "Using API KEY" $SENSIBO_API_KEY
+
+if [ -z $SENSIBO_AC_DEVICE_ID ]; then	
+	echo "Device ID not set, getting first device ID from API"
+	SENSIBO_AC_DEVICE_ID=$(curl -s -X GET "https://home.sensibo.com/api/v2/users/me/pods?apiKey={$SENSIBO_API_KEY}" | jq -r .result[0].id)
+fi
+
+echo "Using AC DEVICE ID" $SENSIBO_AC_DEVICE_ID
 
 SENSIBO_TEMPERATURE_CELSIUS=${SENSIBO_TEMPERATURE_CELSIUS:-"24"}
 SENSIBO_TEMP_RESET_SLEEP_PERIOD_SECONDS=${SENSIBO_TEMP_RESET_SLEEP_PERIOD_SECONDS:-"180"}
